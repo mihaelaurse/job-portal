@@ -1,10 +1,10 @@
-package com.example.jobportal.employer.controller;
+package com.example.jobportal.employer.repository;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import com.example.jobportal.joblisting.controller.JobListing;
+import com.example.jobportal.joblisting.repository.JobListing;
 
 import java.util.Set;
 
@@ -13,7 +13,7 @@ public class Employer {
     @Id
     @GeneratedValue
     private Long id;
-    private int phoneNumber;
+    private String phoneNumber;
     private String companyName;
     private String emailAddress;
     private String addressLine1;
@@ -33,11 +33,11 @@ public class Employer {
         this.id = id;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

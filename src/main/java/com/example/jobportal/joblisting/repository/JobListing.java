@@ -1,7 +1,7 @@
-package com.example.jobportal.joblisting.controller;
+package com.example.jobportal.joblisting.repository;
 
 import com.example.jobportal.applicant.repository.Applicant;
-import com.example.jobportal.employer.controller.Employer;
+import com.example.jobportal.employer.repository.Employer;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -20,7 +20,7 @@ public class JobListing {
     private Employer employer;
     @ManyToMany
     @JoinColumn(name = "job_listing_id")
-    private Set<Applicant> applicant;
+    private Set<Applicant> applicants;
 
     public Long getId() {
         return id;
@@ -70,11 +70,11 @@ public class JobListing {
         this.employer = employer;
     }
 
-    public Set getApplicant() {
-        return applicant;
+    public Set getApplicants() {
+        return applicants;
     }
 
-    public void setApplicant(Set applicant) {
-        this.applicant = applicant;
+    public void setApplicants(Set applicants) {
+        this.applicants = applicants;
     }
 }

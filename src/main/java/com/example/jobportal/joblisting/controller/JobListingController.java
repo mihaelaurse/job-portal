@@ -1,13 +1,13 @@
-package com.example.jobportal.joblisting.repository;
+package com.example.jobportal.joblisting.controller;
 
-import com.example.jobportal.joblisting.controller.JobListing;
+import com.example.jobportal.joblisting.repository.JobListing;
 import com.example.jobportal.joblisting.service.JobListingService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 @RestController
-@RequestMapping("jobListing")
+@RequestMapping("/job-listing")
 public class JobListingController {
 
     private final JobListingService jobListingService;
@@ -21,10 +21,10 @@ public class JobListingController {
         return jobListingService.getJobListing(jobListingId);
     }
 
-    @GetMapping
-    private Set<JobListing> getJobListing() {
-        return jobListingService.getJobListing();
-    }
+//    @GetMapping("/{allJobListings}")
+//    private Set<JobListing> getAllJobListings() {
+//        return jobListingService.getJobListing();
+//    }
 
     @PostMapping
     private JobListing createJobListing(@RequestBody JobListing jobListing) {

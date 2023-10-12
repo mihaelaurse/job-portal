@@ -1,6 +1,9 @@
 package com.example.jobportal.employer.service;
 
-import com.example.jobportal.employer.controller.Employer;
+import com.example.jobportal.employer.repository.Employer;
+import com.example.jobportal.employer.repository.EmployerRepository;
+import com.example.jobportal.joblisting.repository.JobListing;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -8,46 +11,50 @@ import java.util.*;
 @Service
 public class EmployerService {
 
+    @Autowired
+    private EmployerRepository employerRepository;
 
     public Employer getEmployer(Long employerId) {
-        return employerMap.get(employerId);
+
+        Optional<Employer> employerOptional = employerRepository.findById(employerId);
+        if (employerOptional.isEmpty()) {
+            throw new RuntimeException("Employer does not exist");
+        }
+
+        return employerRepository.findById(employerId).get();
     }
 
     public Employer createEmployer(Employer employer) {
-        Random random = new Random();
-        Long key = random.nextLong();
-        employer.setId(key);
-        employerMap.put(key, employer);
 
-        return employerMap.get(key);
+        return employerRepository.save(employer);
+
+    }
+
+    public List<Employer> saveAllEmployers(List<Employer> employers) {
+        return employerRepository.saveAll(employers);
     }
 
     public Employer updateEmployer(Employer employer) {
-        Long id = employer.getId();
-        if (!employerMap.containsKey(id)) {
-            throw new RuntimeException("Employer id does not exist.");
+
+        Optional<Employer> employerIdToUpdate = employerRepository.findById(employer.getId());
+        if (employerIdToUpdate.isEmpty()) {
+            throw new RuntimeException("Employer id does not exist");
         }
-        Employer employerIdToUpdate = employerMap.get(id);
-        employerIdToUpdate.setPhoneNumber(employer.getPhoneNumber());
-        employerIdToUpdate.setCompanyName(employer.getCompanyName());
-        employerIdToUpdate.setEmailAddress(employer.getEmailAddress());
-        employerIdToUpdate.setAddressLine1(employer.getAddressLine1());
-        employerIdToUpdate.setAddressLine2(employer.getAddressLine2());
-        employerIdToUpdate.setCountry(employer.getCountry());
-        employerIdToUpdate.setState(employer.getState());
-        employerIdToUpdate.setCity(employer.getCity());
+//        Employer employerIdToUpdate = employerMap.get(id);
+//        employerIdToUpdate.setPhoneNumber(employer.getPhoneNumber());
+//        employerIdToUpdate.setCompanyName(employer.getCompanyName());
+//        employerIdToUpdate.setEmailAddress(employer.getEmailAddress());
+//        employerIdToUpdate.setAddressLine1(employer.getAddressLine1());
+//        employerIdToUpdate.setAddressLine2(employer.getAddressLine2());
+//        employerIdToUpdate.setCountry(employer.getCountry());
+//        employerIdToUpdate.setState(employer.getState());
+//        employerIdToUpdate.setCity(employer.getCity());
 
-        employerMap.put(id, employerIdToUpdate);
-
-        return employerIdToUpdate;
+        return employerRepository.save(employer);
     }
 
     public void deleteEmployer(Long id) {
-        employerMap.remove(id);
-    }
-
-    public Set<Employer> getEmployer() {
-        return new HashSet<>(employerMap.values());
+        employerRepository.deleteById(id);
     }
 
 }

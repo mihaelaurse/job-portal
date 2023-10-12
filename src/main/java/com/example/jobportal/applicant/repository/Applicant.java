@@ -1,7 +1,7 @@
 package com.example.jobportal.applicant.repository;
 
 import jakarta.persistence.*;
-import com.example.jobportal.joblisting.controller.JobListing;
+import com.example.jobportal.joblisting.repository.JobListing;
 
 import java.util.Set;
 

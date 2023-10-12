@@ -1,13 +1,13 @@
-package com.example.jobportal.employer.repository;
+package com.example.jobportal.employer.controller;
 
-import com.example.jobportal.employer.controller.Employer;
+import com.example.jobportal.employer.repository.Employer;
 import com.example.jobportal.employer.service.EmployerService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 @RestController
-@RequestMapping("com/example/jobportal/employer")
+@RequestMapping("/employer")
 public class EmployerController {
 
     private final EmployerService employerService;
@@ -21,10 +21,10 @@ public class EmployerController {
         return employerService.getEmployer(employerId);
     }
 
-    @GetMapping
-    private Set<Employer> getEmployer() {
-        return employerService.getEmployer();
-    }
+//    @GetMapping
+//    private Set<Employer> getEmployer() {
+//        return employerService.getEmployer();
+//    }
 
     @PostMapping
     private Employer createEmployer(@RequestBody Employer employer) {
