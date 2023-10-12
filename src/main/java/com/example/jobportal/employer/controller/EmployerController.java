@@ -1,10 +1,10 @@
 package com.example.jobportal.employer.controller;
 
+import com.example.jobportal.employer.AddJobListing;
 import com.example.jobportal.employer.repository.Employer;
 import com.example.jobportal.employer.service.EmployerService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 
 @RestController
 @RequestMapping("/employer")
@@ -21,11 +21,6 @@ public class EmployerController {
         return employerService.getEmployer(employerId);
     }
 
-//    @GetMapping
-//    private Set<Employer> getEmployer() {
-//        return employerService.getEmployer();
-//    }
-
     @PostMapping
     private Employer createEmployer(@RequestBody Employer employer) {
         return employerService.createEmployer(employer);
@@ -39,5 +34,10 @@ public class EmployerController {
     @DeleteMapping("/id")
     private void deleteEmployer(@PathVariable("id") Long employerId) {
         employerService.deleteEmployer(employerId);
+    }
+
+    @PostMapping("add-job-listing")
+    public void addJobListing(@RequestBody AddJobListing addJobListing) {
+        employerService.addJobListing(addJobListing);
     }
 }

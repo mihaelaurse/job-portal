@@ -17,9 +17,15 @@ import java.util.Set;
 @RestController
 @RequestMapping("/populate")
 public class PopulateWithData {
-    public EmployerService employerService;
-    public ApplicantService applicantService;
-    public JobListingService jobListingService;
+    private final EmployerService employerService;
+    private final ApplicantService applicantService;
+    private final JobListingService jobListingService;
+
+    public PopulateWithData(EmployerService employerService, ApplicantService applicantService, JobListingService jobListingService) {
+        this.employerService = employerService;
+        this.applicantService = applicantService;
+        this.jobListingService = jobListingService;
+    }
 
     @PostMapping
     public AllData populateData() {

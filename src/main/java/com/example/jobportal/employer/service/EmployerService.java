@@ -1,9 +1,10 @@
 package com.example.jobportal.employer.service;
 
+import com.example.jobportal.employer.AddJobListing;
 import com.example.jobportal.employer.repository.Employer;
 import com.example.jobportal.employer.repository.EmployerRepository;
 import com.example.jobportal.joblisting.repository.JobListing;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.jobportal.joblisting.repository.JobListingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -11,8 +12,13 @@ import java.util.*;
 @Service
 public class EmployerService {
 
-    @Autowired
-    private EmployerRepository employerRepository;
+    private final EmployerRepository employerRepository;
+    private final JobListingRepository jobListingRepository;
+
+    public EmployerService(EmployerRepository employerRepository, JobListingRepository jobListingRepository) {
+        this.employerRepository = employerRepository;
+        this.jobListingRepository = jobListingRepository;
+    }
 
     public Employer getEmployer(Long employerId) {
 
@@ -40,21 +46,28 @@ public class EmployerService {
         if (employerIdToUpdate.isEmpty()) {
             throw new RuntimeException("Employer id does not exist");
         }
-//        Employer employerIdToUpdate = employerMap.get(id);
-//        employerIdToUpdate.setPhoneNumber(employer.getPhoneNumber());
-//        employerIdToUpdate.setCompanyName(employer.getCompanyName());
-//        employerIdToUpdate.setEmailAddress(employer.getEmailAddress());
-//        employerIdToUpdate.setAddressLine1(employer.getAddressLine1());
-//        employerIdToUpdate.setAddressLine2(employer.getAddressLine2());
-//        employerIdToUpdate.setCountry(employer.getCountry());
-//        employerIdToUpdate.setState(employer.getState());
-//        employerIdToUpdate.setCity(employer.getCity());
 
         return employerRepository.save(employer);
     }
 
     public void deleteEmployer(Long id) {
         employerRepository.deleteById(id);
+    }
+
+    public void addJobListing(AddJobListing addJobListing) {
+        Optional<JobListing> jobListingOptional = jobListingRepository.findById(addJobListing.getJobListingId());
+        if (jobListingOptional.isEmpty()){
+            throw new RuntimeException("Job Listing does not exist");
+        }
+        Optional<Employer> employerOptional = employerRepository.findById(addJobListing.getEmployerId());
+        if (employerOptional.isEmpty()){
+            throw new RuntimeException("Employer does not exist");
+        }
+
+        JobListing jobListing = jobListingOptional.get();
+        Employer employer = employerOptional.get();
+        employer.getJobListings().add(jobListing);
+        employerRepository.save(employer);
     }
 
 }

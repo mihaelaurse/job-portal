@@ -70,11 +70,11 @@ public class JobListing {
         this.employer = employer;
     }
 
-    public Set getApplicants() {
+    public Set<Applicant> getApplicants() {
         return applicants;
     }
 
-    public void setApplicants(Set applicants) {
+    public void setApplicants(Set<Applicant> applicants) {
         this.applicants = applicants;
     }
 }

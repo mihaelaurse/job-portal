@@ -2,19 +2,19 @@ package com.example.jobportal.applicant.service;
 
 import com.example.jobportal.applicant.repository.Applicant;
 import com.example.jobportal.applicant.repository.ApplicantRepository;
-import com.example.jobportal.joblisting.repository.JobListing;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ApplicantService {
 
-    @Autowired
-    private ApplicantRepository applicantRepository;
+    private final ApplicantRepository applicantRepository;
+
+    public ApplicantService(ApplicantRepository applicantRepository) {
+        this.applicantRepository = applicantRepository;
+    }
 
     public Applicant getApplicant(Long applicantId) {
 

@@ -25,6 +25,14 @@ public class Employer {
     @OneToMany
     private Set<JobListing> jobListings;
 
+    public Set<JobListing> getJobListings() {
+        return jobListings;
+    }
+
+    public void setJobListings(Set<JobListing> jobListings) {
+        this.jobListings = jobListings;
+    }
+
     public Long getId() {
         return id;
     }

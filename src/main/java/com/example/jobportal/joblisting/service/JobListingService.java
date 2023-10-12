@@ -1,16 +1,24 @@
 package com.example.jobportal.joblisting.service;
 
+import com.example.jobportal.applicant.repository.Applicant;
+import com.example.jobportal.applicant.repository.ApplicantRepository;
+import com.example.jobportal.joblisting.ApplyForJob;
 import com.example.jobportal.joblisting.repository.JobListing;
 import com.example.jobportal.joblisting.repository.JobListingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 public class JobListingService {
-    @Autowired
-    private JobListingRepository jobListingRepository;
+
+    private final JobListingRepository jobListingRepository;
+    private final ApplicantRepository applicantRepository;
+
+    public JobListingService(JobListingRepository jobListingRepository, ApplicantRepository applicantRepository) {
+        this.jobListingRepository = jobListingRepository;
+        this.applicantRepository = applicantRepository;
+    }
 
     public JobListing getJobListing(Long jobListingId) {
 
@@ -36,20 +44,29 @@ public class JobListingService {
         if (jobListingIdToUpdate.isEmpty()) {
             throw new RuntimeException("Job Listing id does not exist.");
         }
-//        JobListing jobListingIdToUpdate = jobListingMap.get(id);
-//        jobListingIdToUpdate.setTitle(jobListingIdToUpdate.getTitle());
-//        jobListing.setListingDate(jobListing.getListingDate());
-//        jobListing.setEndDate(jobListingIdToUpdate.getEndDate());
-//        jobListing.setEmployer(jobListing.getEmployer());
-//        jobListing.setDescription(jobListingIdToUpdate.getDescription());
-//
-//        jobListingMap.put(id, jobListingIdToUpdate);
 
         return jobListingRepository.save(jobListing);
     }
 
     public void deleteJobListing(Long id) {
         jobListingRepository.deleteById(id);
+    }
+
+    public void applyForJob(ApplyForJob applyForJob) {
+        Optional<JobListing> jobListingOptional = jobListingRepository.findById(applyForJob.getJobListingId());
+        if (jobListingOptional.isEmpty()){
+            throw new RuntimeException("Job Listing does not exist");
+        }
+
+        Optional<Applicant> applicantOptional = applicantRepository.findById(applyForJob.getApplicantId());
+        if (applicantOptional.isEmpty()) {
+            throw new RuntimeException("Applicant does not exist");
+        }
+
+        JobListing jobListing = jobListingOptional.get();
+        Applicant applicant = applicantOptional.get();
+        jobListing.getApplicants().add(applicant);
+        jobListingRepository.save(jobListing);
     }
 
 }

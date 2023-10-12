@@ -2,10 +2,7 @@ package com.example.jobportal.applicant.controller;
 
 import com.example.jobportal.applicant.repository.Applicant;
 import com.example.jobportal.applicant.service.ApplicantService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Set;
 
 @RestController
 @RequestMapping("/applicant")
@@ -20,11 +17,6 @@ public class ApplicantController {
     private Applicant getApplicant(@PathVariable("id") Long applicantId) {
         return applicantService.getApplicant(applicantId);
     }
-
-//    @GetMapping
-//    private Set<Applicant> getAllApplicants() {
-//        return applicantService.getAllApplicants();
-//    }
 
     @PostMapping
     private Applicant createApplicant(@RequestBody Applicant applicant) {
